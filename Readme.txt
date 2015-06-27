@@ -11,4 +11,4 @@ Plus, I've added some special recipes for my own purposes, for example
 - Extracting blogspot-blogs
 - News sources for Tagesanzeiger, 20min.ch,...
 
-See http://calibre.org/ for the fabulous Calibre software
+See  http://calibre-ebook.com/  for the fabulous Calibre software

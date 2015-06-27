@@ -40,7 +40,23 @@ class WikipediaBook(BasicNewsRecipe):
                         , 'publisher'        : publisher
                         , 'language'         : lang
                         , 'pretty_print'     : True
+                        , 'linearize_tables' : False
                         }
+
+# linearize-tables
+# 
+# Some badly designed documents use tables to control the layout of text on the page.
+# When converted these documents often have text that runs off the page and other artifacts.
+# This option will extract the content from the tables and present it in a linear fashion.
+
+# pretty-print
+# 
+# If specified, the output plugin will try to create output that is as human readable as possible.
+# May not have any effect for some output plugins.
+
+# output-profile   kindle, kindle_dx, kindle_fire, kindle_pw,
+
+
 
 
 #    preprocess_regexps = [(re.compile(u'\u0110'), lambda match: u'\u00D0')]
@@ -63,13 +79,9 @@ class WikipediaBook(BasicNewsRecipe):
 #        soup.head.insert(1,mcharset)
 #        return self.adeify_images(soup)
 
-#    def get_cover_url(self):
-#        cover_url = None
-#        soup = self.index_to_soup(self.INDEX)
-#        cover_item = soup.find('img',attrs={'alt':'Naslovna strana'})
-#        if cover_item:
-#           cover_url = self.INDEX + cover_item.parent['href']
-#        return cover_url
+    def get_cover_url(self):
+        cover_url = 'https://de.wikipedia.org/static/images/project-logos/dewiki.png'
+        return cover_url
 
     def parse_index(self):
         totalfeeds = []

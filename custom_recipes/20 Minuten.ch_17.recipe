@@ -17,17 +17,17 @@ class ZwanzigMinCH(BasicNewsRecipe):
     category              = 'news, politics, nachrichten, Switzerland'
     oldest_article        = 2
     max_articles_per_feed = 100
-    no_stylesheets        = True
+#    no_stylesheets        = True
     use_embedded_content  = False
     language              = 'de'
-    extra_css             = """
-                               .quote{font-size: large !important;
-                                      font-style: italic;
-                                      font-weight: normal !important;
-                                      border-bottom: 1px dotted #BFBFBF;
-                                      border-top: 1px dotted #BFBFBF;
-                                      line-height: 1.25em}
-                            """
+#    extra_css             = """
+#                               .quote{font-size: large !important;
+#                                      font-style: italic;
+#                                      font-weight: normal !important;
+#                                      border-bottom: 1px dotted #BFBFBF;
+#                                      border-top: 1px dotted #BFBFBF;
+#                                      line-height: 1.25em}
+#                            """
 
 
     #MM: added those two as a quick win improvement.
