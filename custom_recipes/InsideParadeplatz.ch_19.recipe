@@ -1,13 +1,15 @@
+#!/usr/bin/env  python2
+
 __license__   = 'GPL v3'
 __copyright__ = '2015, MM'
 
 '''
-www.nzz.ch
+InsideParadeplatz.ch
 '''
 
 from calibre.web.feeds.recipes import BasicNewsRecipe
 
-class Nzz(BasicNewsRecipe):
+class InsideParadeplatz(BasicNewsRecipe):
     title                 = 'InsideParadeplatz.ch'
     __author__            = 'MM'
     description           = 'Flurfunk'
@@ -18,19 +20,6 @@ class Nzz(BasicNewsRecipe):
     no_stylesheets        = True
     use_embedded_content  = False
     language              = 'de'
-    extra_css             = """
-                               body{font-family: Georgia,"Times New Roman",Times,serif }
-                               .artikel h3,.artikel h4,.bildLegende,.question,.autor{font-family: Arial,Verdana,Helvetica,sans-serif}
-                               .bildLegende{font-size: small}
-                               .autor{font-size: 0.9375em; color: #666666}
-                               .quote{font-size: large !important;
-                                      font-style: italic;
-                                      font-weight: normal !important;
-                                      border-bottom: 1px dotted #BFBFBF;
-                                      border-top: 1px dotted #BFBFBF;
-                                      line-height: 1.25em}
-                                .quelle{color: #666666; font-style: italic; white-space: nowrap}
-                            """
 
     conversion_options = {
                              'comments'  : description
@@ -50,6 +39,6 @@ class Nzz(BasicNewsRecipe):
                   ]
 
     feeds = [
-		 (u'IP' , u'http://insideparadeplatz.ch/feed/')     
+		 ( u'http://insideparadeplatz.ch/feed/')     
      ]
 

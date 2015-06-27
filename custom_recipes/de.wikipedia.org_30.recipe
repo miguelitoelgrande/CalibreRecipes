@@ -20,8 +20,8 @@ class WikipediaBook(BasicNewsRecipe):
     description           = 'Create an eBook from Wikipedia articles'
     publisher             = 'Wikipedia'
     category              = 'knowledge'
-    no_stylesheets        = True
-    encoding              = 'utf-8'
+#    no_stylesheets        = True
+#    encoding              = 'utf-8'
     use_embedded_content  = False
     language = 'de'
     lang                  = 'de'

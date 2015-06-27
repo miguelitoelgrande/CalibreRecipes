@@ -1,15 +1,16 @@
+#!/usr/bin/env  python2
+
 __license__   = 'GPL v3'
 __copyright__ = '2015, MM'
 
 '''
-www.nzz.ch
+www.20minuten.ch
 '''
 
 from calibre.web.feeds.recipes import BasicNewsRecipe
 
-class Nzz(BasicNewsRecipe):
+class ZwanzigMinCH(BasicNewsRecipe):
     title                 = '20 Minuten.ch'
-    authors                = "2015-06-33"
     __author__            = 'M.M.'
     description           = 'Nachrichten von 20 Minuten'
     publisher             = '20 Min'
