@@ -1,0 +1,81 @@
+#!/usr/bin/env  python2
+
+__license__   = 'GPL v3'
+__copyright__ = '2015, MM'
+
+'''
+Install and use Firefox and its Calibre plugin
+Run the "Tools->Output as HTML" in ScapBook before using this feed recipe
+!!!Take the URL from the displayed HTML index and adapt below!!!
+'''
+
+#import re
+#from calibre import strftime
+from calibre.web.feeds.news import BasicNewsRecipe
+from calibre.ebooks.BeautifulSoup import Tag
+
+
+class ScrapBook2Calibre(BasicNewsRecipe):
+    title                 = 'ScrapBook2Calibre'
+    __author__            = 'MM'
+    description           = 'Create an eBook from Firefox plugin Calibre'
+    publisher             = 'ScrapBook'
+    category              = 'knowledge'
+#    no_stylesheets        = True
+#    encoding              = 'utf-8'
+    use_embedded_content  = False
+#    language = 'en'
+    lang                  = 'en'
+    
+    remove_empty_feeds = True
+    remove_javascript = True
+
+    #MM: added those two as a quick win improvement.
+    ignore_duplicate_articles = {'title', 'url'}
+    simultaneous_downloads = 5
+    
+    INDEX    = u'file:///C:/Users/michael/AppData/Roaming/Mozilla/Firefox/Profiles/cmjoai5n.default/ScrapBook/tree/index.html'
+    BASE_URL = u'file:///C:/Users/michael/AppData/Roaming/Mozilla/Firefox/Profiles/cmjoai5n.default/ScrapBook/tree/'
+
+#    extra_css = '''
+#                body{font-family:verdana,arial,helvetica,geneva,sans-serif;}
+#                '''
+
+    conversion_options = {'comments': description, 'tags': category, 'language': lang,
+                          'publisher': publisher, 'linearize_tables': True}
+
+
+#    keep_only_tags = [         
+#         #dict(name='div', attrs={'id':'srodek','class':'kolumna'}) 
+#		 #dict(name='table', attrs={'class':'contentpaneopen'}) 
+#    ]
+        
+#    remove_tags = [
+#                     dict(name='div', attrs={'class':'yvComment'}) 
+#                  ]
+
+
+
+    def parse_index(self):
+        soup = self.index_to_soup(self.INDEX)
+        index = []
+
+        elist = soup.find('ul', attrs = {'id': 'folder-root'})
+        articles = []
+        # need the other td tags which are NOT the right aligned numberings... 
+        #  and not tag.has_key('align')   and not tag['align'] == 'right'
+        for li in elist.findAll(lambda tag: tag.name == 'li' and len(tag.attrs) <> 0  ):
+            #TODO: somehow reproduce the ScrapBooks folders in Calibre as feeds or so..
+            a = li.a
+            a.extract()
+            title = self.tag_to_string(a)
+            url = self.BASE_URL + a['href']            
+            description = self.tag_to_string(a)
+            articles.append({'title': title, 'date': None, 'url': url, 'description' : description})
+
+        index.append(('ScrapBook', articles))
+
+        return index
+
+
+

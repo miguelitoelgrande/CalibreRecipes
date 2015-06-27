@@ -1,0 +1,68 @@
+__license__   = 'GPL v3'
+__copyright__ = '2015, MM'
+
+'''
+www.nzz.ch
+'''
+
+from calibre.web.feeds.recipes import BasicNewsRecipe
+
+class Nzz(BasicNewsRecipe):
+    title                 = '20 Minuten.ch'
+    authors                = "2015-06-33"
+    __author__            = 'M.M.'
+    description           = 'Nachrichten von 20 Minuten'
+    publisher             = '20 Min'
+    category              = 'news, politics, nachrichten, Switzerland'
+    oldest_article        = 2
+    max_articles_per_feed = 100
+    no_stylesheets        = True
+    use_embedded_content  = False
+    language              = 'de'
+    extra_css             = """
+                               .quote{font-size: large !important;
+                                      font-style: italic;
+                                      font-weight: normal !important;
+                                      border-bottom: 1px dotted #BFBFBF;
+                                      border-top: 1px dotted #BFBFBF;
+                                      line-height: 1.25em}
+                            """
+
+
+    #MM: added those two as a quick win improvement.
+    ignore_duplicate_articles = {'title', 'url'}
+    simultaneous_downloads = 5
+							
+							
+    conversion_options = {
+                             'comments'  : description
+                            ,'tags'      : category
+                            ,'language'  : language
+                            ,'publisher' : publisher
+                         }
+
+    remove_attributes=['width','height','lang']
+    remove_tags_before = dict(name='div', attrs={'class':'story_head'}) 
+    remove_tags_after = dict(name='div', attrs={'class':'story_text'}) 
+
+	
+    remove_tags = [
+                     dict(name=['object','link','base','meta','iframe'])
+                    ,dict(name='div', attrs={'class':'thematic_box'}) 
+                    ,dict(name='div',attrs={'class':['box']})
+				    , dict(name='div', attrs={'class':'topelement picture'}) 
+                    , dict(name='div', attrs={'class':'ginfo'}) 
+                    , dict(name='a', attrs={'class':'grossAnsicht d'})                     
+                    , dict(name='a', attrs={'class':'grossAnsicht d zoom-in'}) 
+                    
+                  ]
+
+    feeds = [              
+		 (u'News' , u'http://www.20min.ch/rss/rss.tmpl?type=channel&get=4')
+		,(u'ZH'       , u'http://www.20min.ch/rss/rss.tmpl?type=rubrik&get=19')
+        ,(u'Schweiz'       , u'http://www.20min.ch/rss/rss.tmpl?type=rubrik&get=2')
+        ,(u'Ausland'    , u'http://www.20min.ch/rss/rss.tmpl?type=rubrik&get=3')
+        ,(u'Wirtschaft' , u'http://www.20min.ch/rss/rss.tmpl?type=channel&get=8')
+        ,(u'Digital'       , u'http://www.20min.ch/rss/rss.tmpl?type=channel&get=10')       
+     ]
+

@@ -1,0 +1,67 @@
+from calibre.web.feeds.news import BasicNewsRecipe
+
+# http://www.emissions-euets.com/internal-electricity-market-glossary
+
+class EUETSglossary(BasicNewsRecipe):
+    __license__  = 'GPL v3'
+    __author__ = 'euets'
+    language = 'en'
+    version = 1
+
+    title = u'EUETS electricity market glossary'
+    publisher = u'EUETS'
+    category = u'Glossary'
+    description = u'Energy topics'
+
+    #MM: added those two as a quick win improvement.
+    ignore_duplicate_articles = {'title', 'url'}
+    simultaneous_downloads = 5
+    timeout = 4
+
+    remove_empty_feeds = True
+    remove_javascript = True
+
+    INDEX = 'http://www.emissions-euets.com/internal-electricity-market-glossary'
+    BASE_URL = 'http://www.emissions-euets.com'
+
+    extra_css = '''
+                body{font-family:verdana,arial,helvetica,geneva,sans-serif;}
+                '''
+
+    conversion_options = {'comments': description, 'tags': category, 'language': 'en',
+                          'publisher': publisher, 'linearize_tables': True}
+
+
+    keep_only_tags = [         
+         dict(name='div', attrs={'id':'srodek','class':'kolumna'}) 
+		 #dict(name='table', attrs={'class':'contentpaneopen'}) 
+    ]
+        
+    remove_tags = [
+                     dict(name='div', attrs={'class':'yvComment'}) 
+                  ]
+
+
+
+    def parse_index(self):
+        soup = self.index_to_soup(self.INDEX)
+        index = []
+
+        table = soup.find('table', attrs = {'width': '100%'})
+        articles = []
+        # need the other td tags which are NOT the right aligned numberings... 
+        #  and not tag.has_key('align')   and not tag['align'] == 'right'
+        for td in table.findAll(lambda tag: tag.name == 'td' and len(tag.attrs) == 0  ):
+            a = td.a
+            a.extract()
+            title = self.tag_to_string(a)
+            url = self.BASE_URL + a['href']
+            #description = self.tag_to_string(td)
+            description = self.tag_to_string(a)
+            articles.append({'title': title, 'date': None, 'url': url, 'description' : description})
+
+        index.append(('Glossary', articles))
+
+        return index
+
+

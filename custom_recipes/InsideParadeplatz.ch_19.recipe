@@ -1,0 +1,55 @@
+__license__   = 'GPL v3'
+__copyright__ = '2015, MM'
+
+'''
+www.nzz.ch
+'''
+
+from calibre.web.feeds.recipes import BasicNewsRecipe
+
+class Nzz(BasicNewsRecipe):
+    title                 = 'InsideParadeplatz.ch'
+    __author__            = 'MM'
+    description           = 'Flurfunk'
+    publisher             = 'LH'
+    category              = 'gosip'
+    oldest_article        = 14
+    max_articles_per_feed = 100
+    no_stylesheets        = True
+    use_embedded_content  = False
+    language              = 'de'
+    extra_css             = """
+                               body{font-family: Georgia,"Times New Roman",Times,serif }
+                               .artikel h3,.artikel h4,.bildLegende,.question,.autor{font-family: Arial,Verdana,Helvetica,sans-serif}
+                               .bildLegende{font-size: small}
+                               .autor{font-size: 0.9375em; color: #666666}
+                               .quote{font-size: large !important;
+                                      font-style: italic;
+                                      font-weight: normal !important;
+                                      border-bottom: 1px dotted #BFBFBF;
+                                      border-top: 1px dotted #BFBFBF;
+                                      line-height: 1.25em}
+                                .quelle{color: #666666; font-style: italic; white-space: nowrap}
+                            """
+
+    conversion_options = {
+                             'comments'  : description
+                            ,'tags'      : category
+                            ,'language'  : language
+                            ,'publisher' : publisher
+                         }
+    
+    keep_only_tags = dict(name='div', attrs={'id':'primary', 'class':'content-area'}) 
+   
+	
+    remove_tags = [
+                     dict(name=['object','link','base','meta','iframe'])
+                    ,dict(name='div', attrs={'class':'comment-respond'}) 
+					,dict(name='div', attrs={'class':'entry-sharing'}) 
+					,dict(name='div', attrs={'class':'sharedaddy sd-sharing-enabled'}) 					
+                  ]
+
+    feeds = [
+		 (u'IP' , u'http://insideparadeplatz.ch/feed/')     
+     ]
+

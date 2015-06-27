@@ -1,0 +1,66 @@
+__license__   = 'GPL v3'
+__copyright__ = '2015, MM'
+
+'''
+www.hackaday.com
+'''
+
+from calibre.web.feeds.recipes import BasicNewsRecipe
+
+class HackAday(BasicNewsRecipe):
+    title                 = 'http://hackaday.com'
+    __author__            = 'M.M.'
+    description           = 'Latest blog entries on hackaday.com'
+    publisher             = 'hackaday'
+    category              = 'daily hardware hacks'
+    oldest_article        = 14
+    max_articles_per_feed = 100
+    no_stylesheets        = True
+#    encoding              = 'utf-8'
+    use_embedded_content  = False
+    language              = 'en'
+    extra_css             = """
+                               .autor{font-size: 0.9375em; color: #666666}
+                            """
+
+    #MM: added those two as a quick win improvement.
+    ignore_duplicate_articles = {'title', 'url'}
+    simultaneous_downloads = 5
+															
+							
+    conversion_options = {
+                             'comments'  : description
+                            ,'tags'      : category
+                            ,'language'  : language
+                            ,'publisher' : publisher
+                         }
+
+    remove_attributes=['width','height','lang']
+    remove_tags_before = dict(name='header', attrs={'class':'entry-header'}) 
+    remove_tags_after = dict(name='article') 
+	
+    remove_tags = [
+                      dict(name='ul', attrs={'class':'share-post'}) 
+                    , dict(name='div', attrs={'class':'entry-meta'}) 
+                    , dict(name=['object','link','base','meta','iframe'])
+#                    ,dict(name='div', attrs={'class':'thematic_box'}) 
+#				    , dict(name='div', attrs={'class':'topelement picture'}) 
+ #                   ,dict(name='div',attrs={'class':['box']})
+
+                  ]
+
+    feeds = [
+		(u'p1', u'http://hackaday.com/blog/feed/')
+       ,(u'p2', u'http://hackaday.com/blog/feed/?paged=2')	
+       ,(u'p3', u'http://hackaday.com/blog/feed/?paged=3')
+       ,(u'p4', u'http://hackaday.com/blog/feed/?paged=4')	
+       ,(u'p5', u'http://hackaday.com/blog/feed/?paged=5')	
+       ,(u'p6', u'http://hackaday.com/blog/feed/?paged=6')	
+       ,(u'p7', u'http://hackaday.com/blog/feed/?paged=7')		          	
+       ,(u'p8', u'http://hackaday.com/blog/feed/?paged=8')	
+       ,(u'p9', u'http://hackaday.com/blog/feed/?paged=9')	
+       ,(u'P10', u'http://hackaday.com/blog/feed/?paged=10')	
+       ,(u'P11', u'http://hackaday.com/blog/feed/?paged=11')			
+	   ,(u'P12', u'http://hackaday.com/blog/feed/?paged=12')	
+     ]
+

@@ -1,0 +1,72 @@
+__license__   = 'GPL v3'
+__copyright__ = '2015, MM'
+
+'''
+DerPostillon
+'''
+
+from calibre.web.feeds.recipes import BasicNewsRecipe
+
+class DerPostillon(BasicNewsRecipe):
+    title                 = 'DerPostillon'
+    __author__            = 'M.M.'
+    description           = 'Latest blog entries on Der Postillon.com'
+    publisher             = 'http://www.der-postillon.com'
+    category              = 'satire'
+    oldest_article        = 14
+    max_articles_per_feed = 100
+    no_stylesheets        = True
+#    encoding              = 'utf-8'
+    use_embedded_content  = False
+    language              = 'de'
+    extra_css             = """
+                               body{font-family: Georgia,"Times New Roman",Times,serif }
+                               .artikel h3,.artikel h4,.bildLegende,.question,.autor{font-family: Arial,Verdana,Helvetica,sans-serif}
+                               .bildLegende{font-size: small}
+                               .autor{font-size: 0.9375em; color: #666666}
+                               .quote{font-size: large !important;
+                                      font-style: italic;
+                                      font-weight: normal !important;
+                                      border-bottom: 1px dotted #BFBFBF;
+                                      border-top: 1px dotted #BFBFBF;
+                                      line-height: 1.25em}
+                                .quelle{color: #666666; font-style: italic; white-space: nowrap}
+                            """
+
+    conversion_options = {
+                             'comments'  : description
+                            ,'tags'      : category
+                            ,'language'  : language
+                            ,'publisher' : publisher
+                         }
+
+#    remove_attributes=['width','height','lang']
+#    remove_tags_before = dict(name='header', attrs={'class':'entry-header'}) 
+#    remove_tags_after = dict(name='article') 
+	
+   
+    keep_only_tags = [
+          dict(name='h2', attrs={'class':'date-header'}) 
+        , dict(name='h3', attrs={'class':'post-title entry-title'})           
+        , dict(name='div', attrs={'class':'post-body entry-content post-body-item'}) 
+		, dict(name='div', attrs={'class':'post-body entry-content'})  
+    ]
+        
+#    remove_tags = [
+#                      dict(name='ul', attrs={'class':'share-post'}) 
+#                    , dict(name='div', attrs={'class':'entry-meta'}) 
+#                    , dict(name=['object','link','base','meta','iframe'])
+#                    ,dict(name='div', attrs={'class':'thematic_box'}) 
+#				    , dict(name='div', attrs={'class':'topelement picture'}) 
+ #                   ,dict(name='div',attrs={'class':['box']})
+#                  ]
+
+    feeds = [
+			 'http://feeds.feedburner.com/blogspot/rkEL',  # Der Postillon
+	#	 ('Der Postillon', 'http://feeds.feedburner.com/blogspot/rkEL'),
+    #   ,(u'p2', u'http://hackaday.com/blog/feed/?paged=2')	
+
+     ]
+
+
+    	

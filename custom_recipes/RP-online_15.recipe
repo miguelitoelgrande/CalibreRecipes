@@ -1,0 +1,62 @@
+from calibre.web.feeds.recipes import BasicNewsRecipe
+class AdvancedUserRecipe(BasicNewsRecipe):
+
+    title          = u'RP-online'
+    __author__  = 'schuster (MM mod)'
+    oldest_article = 2
+    max_articles_per_feed = 100
+    no_stylesheets         = True
+    use_embedded_content   = False
+    language               = 'de'
+    remove_javascript      = True
+    masthead_url = 'http://www.die-zeitungen.de/uploads/pics/LOGO_RP_ONLINE_01.jpg'
+    cover_url = 'http://www.manroland.com/com/pressinfo_images/com/RheinischePost_Logo_300dpi.jpg'
+    extra_css = '''
+                    h1{font-family:Arial,Helvetica,sans-serif; font-weight:bold;font-size:large;}
+                    h4{font-family:Arial,Helvetica,sans-serif; font-weight:normal;font-size:small;}
+                    img {min-width:300px; max-width:600px; min-height:300px; max-height:800px}
+                    p{font-family:Arial,Helvetica,sans-serif;font-size:small;}
+                    body{font-family:Helvetica,Arial,sans-serif;font-size:small;}
+	'''
+    # MM: test..
+    #remove_attributes=['height'] 
+    
+	#MM: added those two as a quick win improvement.
+    ignore_duplicate_articles = {'title', 'url'}
+    simultaneous_downloads = 5
+									
+	
+    remove_tags_before =  dict(name='div', attrs={'class':'cell left'}) 	
+    remove_tags_after  = dict(name='div', attrs={'class':'main-text '}) 
+    remove_tags = [dict(attrs={'class':['goodies', 'left', 'right', 'clear-all', 'teaser anzeigenwerbung', 'lesermeinung', 'goodiebox', 'goodiebox 1', 'goodiebox 2', 'goodiebox 3', 'boxframe', 'link']}),
+                dict(id=['click_Fotos_link']),
+				dict(name='span', attrs={'class':'social'})  ,
+                dict(name=['script', 'noscript', 'style', '_top', 'click_Fotos_link']),
+                # MM: manchmal gibts ein doppeltes bild, 2.Variante dank vergroesserung:
+                dict(name='div', attrs={'class':'lightbox inarticle bg-lines mfp-hide'})  ,                                
+                # doppellinie, die komisch konvertiert wird...
+                dict(name='div', attrs={'style':'border-top:1px solid #dbdbdb;border-bottom:1px solid #dbdbdb; padding-top: 1px;'})  ,  
+                
+                # Ugly blank area after "Quelle: AFP" at bottom..                              
+                dict(name='ins', attrs={'class':'adsbygoogle'})  ,                                
+                              
+                                
+                                    
+                ]
+                
+
+    feeds          = [	(u'Top-News', u'http://www.ngz-online.de/app/feed/rss/topnews')
+		,(u'Politik', u'http://www.ngz-online.de/app/feed/rss/politik'),
+		(u'Wirtschaft', u'http://www.ngz-online.de/app/feed/rss/wirtschaft'),		
+		(u'Panorama', u'http://www.ngz-online.de/app/feed/rss/panorama'),
+		(u'Kultur', u'http://www.ngz-online.de/app/feed/rss/kultur'),
+		(u'Gesellschaft', u'http://www.ngz-online.de/app/feed/rss/gesellschaft'),
+		(u'Wissenschaft', u'http://www.ngz-online.de/app/feed/rss/wissen'),
+		(u'Gesundheit', u'http://www.ngz-online.de/app/feed/rss/gesundheit'),
+		(u'Digitale Welt', u'http://www.ngz-online.de/app/feed/rss/digitale'),
+#		(u'Auto & Mobil', u'http://www.ngz-online.de/app/feed/rss/auto'),
+		(u'Reise & Welt', u'http://www.ngz-online.de/app/feed/rss/reise'),
+		(u'Beruf & Karriere', u'http://www.ngz-online.de/app/feed/rss/beruf')
+
+
+]

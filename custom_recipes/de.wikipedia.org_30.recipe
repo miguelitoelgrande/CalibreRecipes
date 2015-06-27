@@ -1,0 +1,101 @@
+#!/usr/bin/env  python2
+
+__license__   = 'GPL v3'
+__copyright__ = '2015, MM'
+
+'''
+https://de.wikipedia.org/wiki/keyword
+https://de.wikipedia.org/w/index.php?title=keyword&printable=yes
+'''
+
+import re
+from calibre import strftime
+from calibre.web.feeds.news import BasicNewsRecipe
+from calibre.ebooks.BeautifulSoup import Tag
+
+
+class WikipediaBook(BasicNewsRecipe):
+    title                 = 'de.wikipedia.org'
+    __author__            = 'MM'
+    description           = 'Create an eBook from Wikipedia articles'
+    publisher             = 'Wikipedia'
+    category              = 'knowledge'
+    no_stylesheets        = True
+    encoding              = 'utf-8'
+    use_embedded_content  = False
+    language = 'de'
+    lang                  = 'de'
+    
+    
+    #MM: added those two as a quick win improvement.
+    ignore_duplicate_articles = {'title', 'url'}
+    simultaneous_downloads = 5
+    
+    INDEX                 = u'https://de.wikipedia.org/wiki/'
+    extra_css = '@font-face {font-family: "serif1";src:url(res:///opt/sony/ebook/FONT/tt0011m_.ttf)} body{font-family: serif1, serif} .article_description{font-family: serif1, serif}'
+
+    conversion_options = {
+                          'comment'          : description
+                        , 'tags'             : category
+                        , 'publisher'        : publisher
+                        , 'language'         : lang
+                        , 'pretty_print'     : True
+                        }
+
+
+#    preprocess_regexps = [(re.compile(u'\u0110'), lambda match: u'\u00D0')]
+
+#    keep_only_tags = [dict(name='div', attrs={'class':'vijest'})]
+
+#    remove_tags = [dict(name=['object','link'])]
+
+    TOPICS = [
+               (u'Thema1'   , {u'Stromhandel', u'Hedgegeschäft' }  )
+              ,(u'Thema2'   , {u'Kraftwerksmanagement', u'Finanzrisiko' }  )            
+            ]
+
+#    def preprocess_html(self, soup):
+#        soup.html['xml:lang'] = self.lang
+#        soup.html['lang']     = self.lang
+#        mlang = Tag(soup,'meta',[("http-equiv","Content-Language"),("content",self.lang)])
+#        mcharset = Tag(soup,'meta',[("http-equiv","Content-Type"),("content","text/html; charset=UTF-8")])
+#        soup.head.insert(0,mlang)
+#        soup.head.insert(1,mcharset)
+#        return self.adeify_images(soup)
+
+#    def get_cover_url(self):
+#        cover_url = None
+#        soup = self.index_to_soup(self.INDEX)
+#        cover_item = soup.find('img',attrs={'alt':'Naslovna strana'})
+#        if cover_item:
+#           cover_url = self.INDEX + cover_item.parent['href']
+#        return cover_url
+
+    def parse_index(self):
+        totalfeeds = []
+#        lfeeds = self.get_feeds()
+        for topicobj in self.TOPICS:
+            chaptitle, topics = topicobj
+            feedurl = 'https://de.wikipedia.org/w/index.php?title=keyword&printable=yes'
+            self.report_progress(0, _('Processing chapter')+' %s...'%(chaptitle))
+            articles = []
+            #soup = self.index_to_soup(feedurl)
+            #for item in soup.findAll('div', attrs={'class':'vijest'}):
+            for mykey in topics:
+                description =  mykey # self.tag_to_string(item.h2)
+                #atag = item.h1.find('a')
+                #if atag and atag.has_key('href'):
+                    # https://de.wikipedia.org/w/index.php?title=keyword&printable=yes
+                url         = 'https://de.wikipedia.org/w/index.php?title='+mykey+'&printable=yes' 
+				# self.INDEX + '/' + atag['href']
+                title       = mykey #self.tag_to_string(atag)
+                date        = strftime(self.timefmt)
+                articles.append({
+                                      'title'      :title
+                                     ,'date'       :date
+                                     ,'url'        :url
+                                     ,'description':description
+                                    })
+            totalfeeds.append((chaptitle, articles))
+        return totalfeeds
+

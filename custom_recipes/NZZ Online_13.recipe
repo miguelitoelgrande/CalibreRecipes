@@ -1,0 +1,83 @@
+__license__   = 'GPL v3'
+__copyright__ = '2009-2010, Darko Miletic <darko.miletic at gmail.com>, 2012 Bernd Leinfelder <skoll1975@gmail.com>'
+
+'''
+www.nzz.ch
+'''
+
+from calibre.web.feeds.recipes import BasicNewsRecipe
+
+class Nzz(BasicNewsRecipe):
+    title                 = 'NZZ Online'
+    __author__            = 'Darko Miletic, Bernd Leinfelder'
+    # MM: modded by MM...
+    description           = 'Laufend aktualisierte Nachrichten, Analysen und Hintergruende zu Politik, Wirtschaft, Kultur und Sport'
+    publisher             = 'NZZ AG'
+    category              = 'news, politics, nachrichten, Switzerland'
+    oldest_article        = 2
+    max_articles_per_feed = 100
+    no_stylesheets        = True
+    encoding              = 'utf-8'
+    use_embedded_content  = False
+    language              = 'de'
+    extra_css             = """
+                               body{font-family: Georgia,"Times New Roman",Times,serif }
+                               .artikel h3,.artikel h4,.bildLegende,.question,.autor{font-family: Arial,Verdana,Helvetica,sans-serif}
+                               .bildLegende{font-size: small}
+                               .autor{font-size: 0.9375em; color: #666666}
+                               .quote{font-size: large !important;
+                                      font-style: italic;
+                                      font-weight: normal !important;
+                                      border-bottom: 1px dotted #BFBFBF;
+                                      border-top: 1px dotted #BFBFBF;
+                                      line-height: 1.25em}
+                                .quelle{color: #666666; font-style: italic; white-space: nowrap}
+                            """
+
+	#MM: added those two as a quick win improvement.
+    ignore_duplicate_articles = {'title', 'url'}
+    simultaneous_downloads = 8							
+							
+    conversion_options = {
+                             'comments'  : description
+                            ,'tags'      : category
+                            ,'language'  : language
+                            ,'publisher' : publisher
+                         }
+
+    remove_attributes=['width','height','lang']
+
+    ## MM: 
+    #keep_only_tags = [ dict(name='article', attrs={'class':'content'}) ]
+    remove_tags_before =  dict(name='article', attrs={'class':'content'}) 
+    remove_tags_after =   dict(name='article', attrs={'class':'content'}) 
+    #remove_tags_before = dict(id='main')
+    #remove_tags_after = dict(id='articleBodyText')
+    remove_tags = [
+                     dict(name=['object','link','base','meta','iframe'])
+                    ,dict(id='social-media-floater')
+                    ,dict(name='div',attrs={'class':['box']})
+                    ##MM: Twitter stuff
+                    ,dict(name='ul',attrs={'class':['sharebox ','sharebox sharebox--bottom']})
+                    ,dict(name='div',attrs={'id':['kommentare']})
+                    ,dict(name='section',attrs={'class':['content__related']})         
+
+                  ]
+
+    feeds = [   # MM: feeds updated  June 2015
+               (u'International' , u'http://www.nzz.ch/international.rss')
+              ,(u'Schweiz'       , u'http://www.nzz.ch/schweiz.rss')
+              ,(u'Wirtschaft'    , u'http://www.nzz.ch/wirtschaft.rss')
+              ,(u'Finanzen'      , u'http://www.nzz.ch/finanzen.rss')
+              ,(u'Zuerich'       , u'http://www.nzz.ch/zuerich.rss')
+          #    ,(u'Sport'         , u'http://www.nzz.ch/sport.rss')
+              ,(u'Panorama'      , u'http://www.nzz.ch/panorama.rss')
+         #     ,(u'Kultur'        , u'http://www.nzz.ch/feuilleton.rss')
+              ,(u'Wissenschaft'  , u'http://www.nzz.ch/wissenschaft.rss')
+        #      ,(u'Reisen'        , u'http://www.nzz.ch/lebensart/reisen-freizeit.rss')
+       #       ,(u'Auto'    , u'http://www.nzz.ch/mehr/auto.rss')
+              ,(u'Digital'       , u'http://www.nzz.ch/mehr/digital.rss')
+       #       ,(u'Lebensart'     , u'http://www.nzz.ch/lebensart.rss')
+       #       ,(u'Wein-Keller'   , u'http://www.nzz.ch/lebensart/wein-keller.rss')
+            ]
+

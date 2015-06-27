@@ -1,0 +1,69 @@
+__license__   = 'GPL v3'
+__copyright__ = '2015, MM'
+
+'''
+www.nzz.ch
+'''
+
+from calibre.web.feeds.recipes import BasicNewsRecipe
+
+class Nzz(BasicNewsRecipe):
+    title                 = 'Tagesanzeiger'
+    __author__            = 'MM'
+    description           = 'Nachrichten vom Tagi'
+    publisher             = 'Tagi'
+    category              = 'news, politics, nachrichten, Switzerland'
+    oldest_article        = 2
+    max_articles_per_feed = 100
+    no_stylesheets        = True
+    encoding              = 'utf-8'
+    use_embedded_content  = False
+    language              = 'de'
+    extra_css             = """
+                               body{font-family: Georgia,"Times New Roman",Times,serif }
+                               .artikel h3,.artikel h4,.bildLegende,.question,.autor{font-family: Arial,Verdana,Helvetica,sans-serif}
+                               .bildLegende{font-size: small}
+                               .autor{font-size: 0.9375em; color: #666666}
+                               .quote{font-size: large !important;
+                                      font-style: italic;
+                                      font-weight: normal !important;
+                                      border-bottom: 1px dotted #BFBFBF;
+                                      border-top: 1px dotted #BFBFBF;
+                                      line-height: 1.25em}
+                                .quelle{color: #666666; font-style: italic; white-space: nowrap}
+                            """
+
+    conversion_options = {
+                             'comments'  : description
+                            ,'tags'      : category
+                            ,'language'  : language
+                            ,'publisher' : publisher
+                         }
+
+    #MM: added those two as a quick win improvement.
+    ignore_duplicate_articles = {'title', 'url'}
+    simultaneous_downloads = 5
+													 
+						 
+    remove_attributes=['width','height','lang']
+    remove_tags_before = dict(id='article')
+    remove_tags_after = dict(id='mainContent')
+    remove_tags = [
+                     dict(name=['object','link','base','meta','iframe'])
+                    ,dict(id='aside')
+                    ,dict(name='div',attrs={'class':['box']})
+                    ,dict(name='section',id='header')
+                    ,dict(name='section',id='footer')
+                    ,dict(name='div',id='mainNav')
+                    ,dict(name='div',id='subnavigation')
+
+                  ]
+
+    feeds = [               
+			   (u'ZH'       , u'http://www.tagesanzeiger.ch/zuerich/rss.html')
+              ,(u'Schweiz'       , u'http://www.tagesanzeiger.ch/schweiz/rss.html')
+              ,(u'Ausland'    , u'http://www.tagesanzeiger.ch/ausland/rss.html')
+              ,(u'Wirtschaft' , u'http://www.tagesanzeiger.ch/wirtschaft/rss.html')
+              ,(u'Digital'       , u'http://www.tagesanzeiger.ch/digital/rss.html')       
+            ]
+
