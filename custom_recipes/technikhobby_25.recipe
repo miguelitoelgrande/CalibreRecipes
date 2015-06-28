@@ -17,7 +17,7 @@ class TechnikHobby(BasicNewsRecipe):
     category              = 'Michis Technik Hobby'
     oldest_article        = 9999
     max_articles_per_feed = 100
-    no_stylesheets        = True
+    no_stylesheets        = False
 #    encoding              = 'utf-8'
     use_embedded_content  = False
     language              = 'de'

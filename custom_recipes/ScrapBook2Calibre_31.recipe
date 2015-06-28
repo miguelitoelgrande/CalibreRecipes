@@ -51,7 +51,7 @@ class ScrapBook2Calibre(BasicNewsRecipe):
                         , 'publisher': publisher
                         , 'linearize_tables': False  # important! Want to keep (real) tables in text!
                         , 'filter_css': u'font-family,width,height,-webkit-column-width,min-width,min-height' # if we stick to original CSS and table structures, we need                  to get rid of fixed width, etc.                        
-                        , 'base_font_size' : 11.0,
+#                        , 'base_font_size' : 11.0,
                         }
 
     # the tables with fixed width/height may be a problem...
@@ -90,22 +90,33 @@ class ScrapBook2Calibre(BasicNewsRecipe):
     def parse_index(self):
         soup = self.index_to_soup(self.INDEX)
         index = []
+        folder = 'main' # if no folder at all...
 
         elist = soup.find('ul', attrs = {'id': 'folder-root'})
         articles = []
         # need the other td tags which are NOT the right aligned numberings... 
         #  and not tag.has_key('align')   and not tag['align'] == 'right'
         for li in elist.findAll(lambda tag: tag.name == 'li' and len(tag.attrs) <> 0  ):
-            #TODO: somehow reproduce the ScrapBooks folders in Calibre as feeds or so..
+            #NEW: reproducing the ScrapBooks folders in Calibre as feeds...
             a = li.a
-            a.extract()            
-            title = self.tag_to_string(a) 
-            url =  a['href']         
-            if url[:11] <> 'javascript:' :  # avoid links: javascript:toggle('folder-xxxx');            
-                 url = self.BASE_URL + url
-                 description = self.tag_to_string(a)                 
-                 articles.append({'title': title, 'date': None, 'url': url, 'description' : description})
-        index.append(('ScrapBook', articles))
+            if a is not None : # separators just have <hr>, no a-Tag
+                a.extract()            
+                title = self.tag_to_string(a) 
+                url =  a['href']   
+                if a['class'] == 'folder' :  # set folder name
+                   if len(articles) <> 0:
+                       index.append((folder, articles))
+                       articles = []
+                   folder = self.tag_to_string(a)       
+                if url[:11] <> 'javascript:' :  # avoid links: javascript:toggle('folder-xxxx');            
+                    url = self.BASE_URL + url
+                    description = self.tag_to_string(a)                 
+                    articles.append({'title': title
+                                  #  , 'date': None
+                                    , 'url': url
+                                  #  , 'description' : description
+                                    })
+        index.append((folder, articles))
 
         return index
 

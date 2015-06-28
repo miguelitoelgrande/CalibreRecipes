@@ -126,13 +126,14 @@ class WikipediaBook(BasicNewsRecipe):
 
     remove_tags = [ dict(name=['span'], attrs={'class':'mw-editsection'})
                   , dict(name=['div'], attrs={'id':'jump-to-nav'})
-          #        , dict(attrs={'class':'noprint'})
+                  , dict(attrs={'class':'noprint'})
                   ]
 
     TOPICS = [
          (u'Energie'   , {u'Stromhandel', u'Kraftwerksmanagement' }  )
         ,(u'Finanzen'   , {u'Hedgegeschäft', u'Finanzrisiko' }  )            
-        ,(u'Geo'     , {u'Fulda', u'Kassel', u'Frankfurt_(Main)_Hauptbahnhof' }  )  
+        ,(u'Geo'     , {u'Fulda', u'Kassel', u'Frankfurt_(Main)_Hauptbahnhof' } )
+        , (u'IT'     , {u'R_(Programmiersprache' , u'Zeitreihenanalyse' }   )
             ]
 
     def get_cover_url(self):
