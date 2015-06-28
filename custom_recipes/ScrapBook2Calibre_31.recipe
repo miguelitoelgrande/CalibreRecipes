@@ -9,7 +9,7 @@ Run the "Tools->Output as HTML" in ScapBook before using this feed recipe
 !!!Take the URL from the displayed HTML index and adapt below!!!
 '''
 
-#import re
+import re
 #from calibre import strftime
 from calibre.web.feeds.news import BasicNewsRecipe
 from calibre.ebooks.BeautifulSoup import Tag
@@ -21,7 +21,7 @@ class ScrapBook2Calibre(BasicNewsRecipe):
     description           = 'Create an eBook from Firefox plugin Calibre'
     publisher             = 'ScrapBook'
     category              = 'knowledge'
-    no_stylesheets        = True
+    no_stylesheets        = False
 #    encoding              = 'utf-8'
     use_embedded_content  = False
 #    language = 'en'
@@ -32,7 +32,7 @@ class ScrapBook2Calibre(BasicNewsRecipe):
 
     #MM: added those two as a quick win improvement.
     ignore_duplicate_articles = {'title', 'url'}
-    simultaneous_downloads = 5
+    simultaneous_downloads = 6
     
     INDEX    = u'file:///C:/Users/michael/AppData/Roaming/Mozilla/Firefox/Profiles/cmjoai5n.default/ScrapBook/tree/index.html'
     BASE_URL = u'file:///C:/Users/michael/AppData/Roaming/Mozilla/Firefox/Profiles/cmjoai5n.default/ScrapBook/tree/'
@@ -40,17 +40,18 @@ class ScrapBook2Calibre(BasicNewsRecipe):
 #    INDEX    = u'file:///C:/Users/user/AppData/Roaming/Mozilla/Firefox/Profiles/rnp74k3y.default/ScrapBook/tree/index.html'
 #    BASE_URL = u'file:///C:/Users/user/AppData/Roaming/Mozilla/Firefox/Profiles/rnp74k3y.default/ScrapBook/tree/'
    
-   
-   
     extra_css = '''
-             table td { border: 1px solid rgb(170, 170, 170); background-color: rgb(249, 249, 249); padding: 5px; font-size: 95%; }    
+          table td { border: 1px solid rgb(170, 170, 170); background-color: rgb(249, 249, 249); padding: 5px; font-size: 95%; }  
+          .noprint, div#jump-to-nav, .mw-jump, div.top, div#column-one, #colophon, .mw-editsection, .mw-editsection-like, .toctoggle, #toc.tochidden, div#f-poweredbyico, div#f-copyrightico, li#about, li#disclaimer, li#mobileview, li#privacy, #footer-places, .mw-hidden-catlinks, tr.mw-metadata-show-hide-extended, span.mw-filepage-other-resolutions, #filetoc, .usermessage, .patrollink, .ns-0 .mw-redirectedfrom, #mw-navigation, #siteNotice { display: none; }
                 '''
+                
 #             body{font-family:verdana,arial,helvetica,geneva,sans-serif;}
 
     conversion_options = {'comments': description, 'tags': category, 'language': lang
                         , 'publisher': publisher
                         , 'linearize_tables': False  # important! Want to keep (real) tables in text!
-                        , 'filter_css': u'font-family,width,height,-webkit-column-width,min-width,min-height' # if we stick to original CSS and table structures, we need to get rid of fixed width, etc.                        
+                        , 'filter_css': u'font-family,width,height,-webkit-column-width,min-width,min-height' # if we stick to original CSS and table structures, we need                  to get rid of fixed width, etc.                        
+                        , 'base_font_size' : 11.0,
                         }
 
     # the tables with fixed width/height may be a problem...
@@ -76,10 +77,14 @@ class ScrapBook2Calibre(BasicNewsRecipe):
 #		 #dict(name='table', attrs={'class':'contentpaneopen'}) 
 #    ]
         
-#    remove_tags = [
-#                     dict(name='div', attrs={'class':'yvComment'}) 
-#                  ]
-
+      
+    
+    remove_tags = [
+              dict( attrs={'class':re.compile( '^.*noprint.*$', re.IGNORECASE)}), # Wikipedia CSS, fields like "[Edit]" will be removed
+#                   dict( attrs={'class':lambda x: x and 'noprint' in x.split()} )  # Wikipedia CSS, fields like "[Edit]" will be removed
+#                    dict(attrs={'class':'noprint'}) # Wikipedia CSS, fields like "[Edit]" will be removed
+#                 ,    dict(name='div', attrs={'class':'yvComment'}) 
+                  ]
 
 
     def parse_index(self):
