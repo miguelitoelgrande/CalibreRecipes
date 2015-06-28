@@ -133,7 +133,7 @@ class WikipediaBook(BasicNewsRecipe):
          (u'Energie'   , {u'Stromhandel', u'Kraftwerksmanagement' }  )
         ,(u'Finanzen'   , {u'Hedgegeschäft', u'Finanzrisiko' }  )            
         ,(u'Geo'     , {u'Fulda', u'Kassel', u'Frankfurt_(Main)_Hauptbahnhof' } )
-        , (u'IT'     , {u'R_(Programmiersprache' , u'Zeitreihenanalyse' }   )
+        , (u'IT'     , {u'R_(Programmiersprache)' , u'Zeitreihenanalyse' }   )
             ]
 
     def get_cover_url(self):
