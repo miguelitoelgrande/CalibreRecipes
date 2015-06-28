@@ -21,7 +21,7 @@ class ScrapBook2Calibre(BasicNewsRecipe):
     description           = 'Create an eBook from Firefox plugin Calibre'
     publisher             = 'ScrapBook'
     category              = 'knowledge'
-#    no_stylesheets        = True
+    no_stylesheets        = True
 #    encoding              = 'utf-8'
     use_embedded_content  = False
 #    language = 'en'
@@ -37,14 +37,20 @@ class ScrapBook2Calibre(BasicNewsRecipe):
     INDEX    = u'file:///C:/Users/michael/AppData/Roaming/Mozilla/Firefox/Profiles/cmjoai5n.default/ScrapBook/tree/index.html'
     BASE_URL = u'file:///C:/Users/michael/AppData/Roaming/Mozilla/Firefox/Profiles/cmjoai5n.default/ScrapBook/tree/'
 
+#    INDEX    = u'file:///C:/Users/user/AppData/Roaming/Mozilla/Firefox/Profiles/rnp74k3y.default/ScrapBook/tree/index.html'
+#    BASE_URL = u'file:///C:/Users/user/AppData/Roaming/Mozilla/Firefox/Profiles/rnp74k3y.default/ScrapBook/tree/'
    
-#    extra_css = '''
-#                body{font-family:verdana,arial,helvetica,geneva,sans-serif;}
-#                '''
+   
+   
+    extra_css = '''
+             table td { border: 1px solid rgb(170, 170, 170); background-color: rgb(249, 249, 249); padding: 5px; font-size: 95%; }    
+                '''
+#             body{font-family:verdana,arial,helvetica,geneva,sans-serif;}
 
-    conversion_options = {'comments': description, 'tags': category, 'language': lang,
-                          'publisher': publisher
+    conversion_options = {'comments': description, 'tags': category, 'language': lang
+                        , 'publisher': publisher
                         , 'linearize_tables': False  # important! Want to keep (real) tables in text!
+                        , 'filter_css': u'font-family,width,height,-webkit-column-width,min-width,min-height' # if we stick to original CSS and table structures, we need to get rid of fixed width, etc.                        
                         }
 
     # the tables with fixed width/height may be a problem...
