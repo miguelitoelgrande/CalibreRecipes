@@ -8,10 +8,9 @@ https://de.wikipedia.org/wiki/keyword
 https://de.wikipedia.org/w/index.php?title=keyword&printable=yes
 '''
 
-import re
-from calibre import strftime
+
 from calibre.web.feeds.news import BasicNewsRecipe
-from calibre.ebooks.BeautifulSoup import Tag
+#from calibre.ebooks.BeautifulSoup import Tag
 
 
 class WikipediaBook(BasicNewsRecipe):
@@ -20,27 +19,90 @@ class WikipediaBook(BasicNewsRecipe):
     description           = 'Create an eBook from Wikipedia articles'
     publisher             = 'Wikipedia'
     category              = 'knowledge'
-#    no_stylesheets        = True
+    no_stylesheets        = False
 #    encoding              = 'utf-8'
     use_embedded_content  = False
-    language = 'de'
-    lang                  = 'de'
+    language               = 'de'
     
     
     #MM: added those two as a quick win improvement.
     ignore_duplicate_articles = {'title', 'url'}
-    simultaneous_downloads = 5
+    simultaneous_downloads = 6
     
     INDEX                 = u'https://de.wikipedia.org/wiki/'
-    extra_css = '@font-face {font-family: "serif1";src:url(res:///opt/sony/ebook/FONT/tt0011m_.ttf)} body{font-family: serif1, serif} .article_description{font-family: serif1, serif}'
+    
+    # Well, somehow the CSS of Wikipedia did not get loaded. So copying it here as "extra_css"
+    extra_css = '''
+ 	a { text-decoration: none; color: rgb(6, 69, 173); background: transparent none repeat scroll 0% 0%; }
+	a:visited { color: rgb(11, 0, 128); }
+	a:active { color: rgb(250, 167, 0); }
+	a:hover, a:focus { text-decoration: underline; }
+	a.new, #p-personal a.new { color: rgb(186, 0, 0); }
+	a.new:visited, #p-personal a.new:visited { color: rgb(165, 88, 88); }
+	.mw-body a.extiw, .mw-body a.extiw:active { color: rgb(51, 102, 187); }
+	.mw-body a.extiw:visited { color: rgb(102, 51, 102); }
+	.mw-body a.extiw:active { color: rgb(187, 102, 51); }
+	.mw-body a.external { color: rgb(51, 102, 187); }
+	.mw-body a.external:visited { color: rgb(102, 51, 102); }
+	.mw-body a.external:active { color: rgb(187, 102, 51); }
+	img { border: medium none; vertical-align: middle; }
+	h1, h2, h3, h4, h5, h6 { color: black; background: transparent none repeat scroll 0% 0%; font-weight: normal; margin: 0px; overflow: hidden; padding-top: 0.5em; padding-bottom: 0.17em; border-bottom: 1px solid rgb(170, 170, 170); }
+	h1 { font-size: 188%; }
+	h2 { font-size: 150%; }
+	h3, h4, h5, h6 { border-bottom: medium none; font-weight: bold; }
+	h3 { font-size: 128%; }
+	h4 { font-size: 116%; }
+	h1, h2 { margin-bottom: 0.6em; }
+	h3, h4, h5 { margin-bottom: 0.3em; }
+	p { margin: 0.4em 0px 0.5em; }
+	ul { list-style-type: square; margin: 0.3em 0px 0px 1.6em; padding: 0px; }
+	ol { margin: 0.3em 0px 0px 3.2em; padding: 0px; list-style-image: none; }
+	li { margin-bottom: 0.1em; }
+	dt { font-weight: bold; margin-bottom: 0.1em; }
+	dl { margin-top: 0.2em; margin-bottom: 0.5em; }
+	table { font-size: 100%; }
+	form { border: medium none; margin: 0px; }
+	.center { width: 100%; text-align: center; }
+	.center * { margin-left: auto; margin-right: auto; }
+	#toc, .toc, .mw-warning, .toccolours { border: 1px solid rgb(170, 170, 170); background-color: rgb(249, 249, 249); padding: 5px; font-size: 95%; }
+	#toc, .toc { display: table; padding: 7px; }
+	#toc h2, .toc h2 { display: inline; border: medium none; padding: 0px; font-size: 100%; font-weight: bold; }
+	#toc #toctitle, .toc #toctitle, #toc .toctitle, .toc .toctitle { text-align: center; }
+	#toc ul, .toc ul { list-style-type: none; list-style-image: none; margin-left: 0px; padding: 0px; text-align: left; }
+	#toc ul ul, .toc ul ul { margin: 0px 0px 0px 2em; }
+	#toc .toctoggle, .toc .toctoggle { font-size: 94%; }
+	div.floatleft, table.floatleft { margin: 0px 0.5em 0.5em 0px; border: 0px none; }
+	div.thumb { margin-bottom: 0.5em; width: auto; background-color: transparent; }
+	div.thumbinner { border: 1px solid rgb(204, 204, 204); padding: 3px; background-color: rgb(249, 249, 249); font-size: 94%; text-align: center; overflow: hidden; }
+	html .thumbimage { border: 1px solid rgb(204, 204, 204); }
+	html .thumbcaption { border: medium none; line-height: 1.4em; padding: 3px; font-size: 94%; text-align: left; }
+	div.magnify { float: right; margin-left: 3px; }
+	div.magnify a { display: block; text-indent: 15px; white-space: nowrap; overflow: hidden; width: 15px; height: 11px; background-image: linear-gradient(transparent, transparent), url('undefined'); -moz-user-select: none; }
+	img.thumbborder { border: 1px solid rgb(221, 221, 221); }
+	.mw-content-ltr .thumbcaption { text-align: left; }
+	.mw-content-ltr .magnify { float: right; margin-left: 3px; margin-right: 0px; }
+	.mw-content-ltr div.magnify a { background-image: linear-gradient(transparent, transparent), url('undefined'); }
+	div.tright { margin: 0.5em 0px 1.3em 1.4em; }
+	div.tleft { margin: 0.5em 1.4em 1.3em 0px; }
+	.catlinks { border: 1px solid rgb(170, 170, 170); background-color: rgb(249, 249, 249); padding: 5px; margin-top: 1em; clear: both; }
+	#siteNotice { position: relative; text-align: center; margin: 0px; }
+	.firstHeading { margin-bottom: 0.1em; line-height: 1.2em; padding-bottom: 0px; }
+	#siteSub { display: none; }
+	#jump-to-nav { margin-top: -1.4em; margin-bottom: 1.4em; }
+	#contentSub, #contentSub2 { font-size: 84%; line-height: 1.2em; margin: 0px 0px 1.4em 1em; color: rgb(84, 84, 84); width: auto; }
+'''
+
+
 
     conversion_options = {
                           'comment'          : description
                         , 'tags'             : category
                         , 'publisher'        : publisher
-                        , 'language'         : lang
+                        , 'language'         : language
                         , 'pretty_print'     : True
                         , 'linearize_tables' : False
+                        , 'preserve_cover_aspect_ratio' : True
+         #               , 'output-profile'  : 'kindle'
                         }
 
 # linearize-tables
@@ -57,27 +119,21 @@ class WikipediaBook(BasicNewsRecipe):
 # output-profile   kindle, kindle_dx, kindle_fire, kindle_pw,
 
 
+    # print version of wikipedia only hides page elements via css..
+    keep_only_tags = [ dict(name='h1', attrs={'id':'firstHeading'})
+                     , dict(name='div', attrs={'id':'bodyContent'})
+    ]
 
-
-#    preprocess_regexps = [(re.compile(u'\u0110'), lambda match: u'\u00D0')]
-
-#    keep_only_tags = [dict(name='div', attrs={'class':'vijest'})]
-
-#    remove_tags = [dict(name=['object','link'])]
+    remove_tags = [ dict(name=['span'], attrs={'class':'mw-editsection'})
+                  , dict(name=['div'], attrs={'id':'jump-to-nav'})
+          #        , dict(attrs={'class':'noprint'})
+                  ]
 
     TOPICS = [
-               (u'Thema1'   , {u'Stromhandel', u'Hedgegeschäft' }  )
-              ,(u'Thema2'   , {u'Kraftwerksmanagement', u'Finanzrisiko' }  )            
+         (u'Energie'   , {u'Stromhandel', u'Kraftwerksmanagement' }  )
+        ,(u'Finanzen'   , {u'Hedgegeschäft', u'Finanzrisiko' }  )            
+        ,(u'Geo'     , {u'Fulda', u'Kassel', u'Frankfurt_(Main)_Hauptbahnhof' }  )  
             ]
-
-#    def preprocess_html(self, soup):
-#        soup.html['xml:lang'] = self.lang
-#        soup.html['lang']     = self.lang
-#        mlang = Tag(soup,'meta',[("http-equiv","Content-Language"),("content",self.lang)])
-#        mcharset = Tag(soup,'meta',[("http-equiv","Content-Type"),("content","text/html; charset=UTF-8")])
-#        soup.head.insert(0,mlang)
-#        soup.head.insert(1,mcharset)
-#        return self.adeify_images(soup)
 
     def get_cover_url(self):
         cover_url = 'https://de.wikipedia.org/static/images/project-logos/dewiki.png'
@@ -85,29 +141,16 @@ class WikipediaBook(BasicNewsRecipe):
 
     def parse_index(self):
         totalfeeds = []
-#        lfeeds = self.get_feeds()
         for topicobj in self.TOPICS:
             chaptitle, topics = topicobj
-            feedurl = 'https://de.wikipedia.org/w/index.php?title=keyword&printable=yes'
-            self.report_progress(0, _('Processing chapter')+' %s...'%(chaptitle))
             articles = []
-            #soup = self.index_to_soup(feedurl)
-            #for item in soup.findAll('div', attrs={'class':'vijest'}):
             for mykey in topics:
-                description =  mykey # self.tag_to_string(item.h2)
-                #atag = item.h1.find('a')
-                #if atag and atag.has_key('href'):
-                    # https://de.wikipedia.org/w/index.php?title=keyword&printable=yes
-                url         = 'https://de.wikipedia.org/w/index.php?title='+mykey+'&printable=yes' 
-				# self.INDEX + '/' + atag['href']
-                title       = mykey #self.tag_to_string(atag)
-                date        = strftime(self.timefmt)
+                url = self.INDEX + mykey
+                title = mykey #self.tag_to_string(atag)
                 articles.append({
-                                      'title'      :title
-                                     ,'date'       :date
-                                     ,'url'        :url
-                                     ,'description':description
-                                    })
+                                  'title'      :title
+                                 ,'url'        :url
+                               })
             totalfeeds.append((chaptitle, articles))
         return totalfeeds
 
