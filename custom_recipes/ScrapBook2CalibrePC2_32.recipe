@@ -15,8 +15,8 @@ from calibre.web.feeds.news import BasicNewsRecipe
 from calibre.ebooks.BeautifulSoup import Tag
 
 
-class ScrapBook2Calibre(BasicNewsRecipe):
-    title                 = 'ScrapBook2Calibre'
+class ScrapBook2CalibrePC2(BasicNewsRecipe):
+    title                 = 'ScrapBook2CalibrePC2'
     __author__            = 'MM'
     description           = 'Create an eBook from Firefox plugin Calibre'
     publisher             = 'ScrapBook'
@@ -34,11 +34,11 @@ class ScrapBook2Calibre(BasicNewsRecipe):
     ignore_duplicate_articles = {'title', 'url'}
     simultaneous_downloads = 6
     
-    INDEX    = u'file:///C:/Users/michael/AppData/Roaming/Mozilla/Firefox/Profiles/cmjoai5n.default/ScrapBook/tree/index.html'
-    BASE_URL = u'file:///C:/Users/michael/AppData/Roaming/Mozilla/Firefox/Profiles/cmjoai5n.default/ScrapBook/tree/'
+#    INDEX    = u'file:///C:/Users/michael/AppData/Roaming/Mozilla/Firefox/Profiles/cmjoai5n.default/ScrapBook/tree/index.html'
+#    BASE_URL = u'file:///C:/Users/michael/AppData/Roaming/Mozilla/Firefox/Profiles/cmjoai5n.default/ScrapBook/tree/'
 
-#    INDEX    = u'file:///C:/Users/user/AppData/Roaming/Mozilla/Firefox/Profiles/rnp74k3y.default/ScrapBook/tree/index.html'
-#    BASE_URL = u'file:///C:/Users/user/AppData/Roaming/Mozilla/Firefox/Profiles/rnp74k3y.default/ScrapBook/tree/'
+    INDEX    = u'file:///C:/Users/user/AppData/Roaming/Mozilla/Firefox/Profiles/rnp74k3y.default/ScrapBook/tree/index.html'
+    BASE_URL = u'file:///C:/Users/user/AppData/Roaming/Mozilla/Firefox/Profiles/rnp74k3y.default/ScrapBook/tree/'
    
     extra_css = '''
           table td { border: 1px solid rgb(170, 170, 170); background-color: rgb(249, 249, 249); padding: 5px; font-size: 95%; }  
@@ -71,6 +71,13 @@ class ScrapBook2Calibre(BasicNewsRecipe):
 # output-profile   kindle, kindle_dx, kindle_fire, kindle_pw,
 
 
+
+#    keep_only_tags = [         
+#         #dict(name='div', attrs={'id':'srodek','class':'kolumna'}) 
+#		 #dict(name='table', attrs={'class':'contentpaneopen'}) 
+#    ]
+        
+  
     def preprocess_html(self, soup):
         # remove all <a href=""> tags as those are annoying in documents on touch screen page flipping...
         # idea: http://www.mobileread.com/forums/showthread.php?t=124215
@@ -89,13 +96,7 @@ class ScrapBook2Calibre(BasicNewsRecipe):
         return soup
 
 	
-
-#    keep_only_tags = [         
-#         #dict(name='div', attrs={'id':'srodek','class':'kolumna'}) 
-#		 #dict(name='table', attrs={'class':'contentpaneopen'}) 
-#    ]
-        
-    
+              
     remove_tags = [
               dict( attrs={'class':re.compile( '^.*noprint.*$', re.IGNORECASE)}), # Wikipedia CSS, fields like "[Edit]" will be removed
 #                   dict( attrs={'class':lambda x: x and 'noprint' in x.split()} )  # Wikipedia CSS, fields like "[Edit]" will be removed

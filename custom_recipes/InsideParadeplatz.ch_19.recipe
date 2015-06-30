@@ -30,7 +30,7 @@ class InsideParadeplatz(BasicNewsRecipe):
     
     keep_only_tags = dict(name='div', attrs={'id':'primary', 'class':'content-area'}) 
    
-	
+           
     remove_tags = [
                      dict(name=['object','link','base','meta','iframe'])
                     ,dict(name='div', attrs={'class':'comment-respond'}) 
@@ -42,3 +42,20 @@ class InsideParadeplatz(BasicNewsRecipe):
 		 ( u'http://insideparadeplatz.ch/feed/')     
      ]
 
+
+    def preprocess_html(self, soup):
+        # remove all <a href=""> tags as those are annoying in documents on touch screen page flipping...
+        # idea: http://www.mobileread.com/forums/showthread.php?t=124215
+        for alink in soup.findAll('a'):			
+            if alink.has_key('href') :
+                if alink['href'][:4] == "http" : # only replace external links for the moment.
+                    del alink['href']
+#            if alink.string is not None:
+#                tstr = '<span style="text-decoration: underline;">' + alink.string + '</span>'
+#                if alink['href'][:4] == "http" : # only replace external links for the moment.
+#                    alink.replaceWith(tstr)
+#            else :                
+#                #tstr =  '<span style="text-decoration: underline;">' + alink.contents + '</span>'
+#                del alink['href']
+#                #alink.unwrap()
+        return soup
