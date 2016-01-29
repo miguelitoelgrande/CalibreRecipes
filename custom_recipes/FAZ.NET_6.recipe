@@ -27,6 +27,9 @@ class FazNet(BasicNewsRecipe):
     ignore_duplicate_articles = {'title', 'url'}
     simultaneous_downloads = 8
 							
+    # Scale images to fit screen dimension (defined by output profile) 
+    compress_news_images = True
+    scale_news_images_to_device = True
 	
     keep_only_tags = [
         {'class':['FAZArtikelEinleitung']},

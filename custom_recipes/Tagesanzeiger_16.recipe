@@ -45,8 +45,12 @@ hyphenate-lines:2;
     #MM: added those two as a quick win improvement.
     ignore_duplicate_articles = {'title', 'url'}
     simultaneous_downloads = 5
-													 
-						 
+		
+    # Scale images to fit screen dimension (defined by output profile) 
+    # reduces one newspaper from approx 20MB to 2MB at time of writing..
+    compress_news_images = True
+    scale_news_images_to_device = True
+
     remove_attributes=['width','height','lang']
     remove_tags_before = dict(id='article')
     remove_tags_after = dict(id='mainContent')

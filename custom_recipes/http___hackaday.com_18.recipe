@@ -28,7 +28,11 @@ class HackAday(BasicNewsRecipe):
     #MM: added those two as a quick win improvement.
     ignore_duplicate_articles = {'title', 'url'}
     simultaneous_downloads = 5
-															
+
+
+    # Scale images to fit screen dimension (defined by output profile) 
+    compress_news_images = True
+    scale_news_images_to_device = True
 							
     conversion_options = {
                              'comments'  : description

@@ -45,6 +45,9 @@ class DerPostillon(BasicNewsRecipe):
 #    remove_tags_before = dict(name='header', attrs={'class':'entry-header'}) 
 #    remove_tags_after = dict(name='article') 
 	
+    # Scale images to fit screen dimension (defined by output profile) 
+    compress_news_images = True
+    scale_news_images_to_device = True   
    
     keep_only_tags = [
           dict(name='h2', attrs={'class':'date-header'}) 
