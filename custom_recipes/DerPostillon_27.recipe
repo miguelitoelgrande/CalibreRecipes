@@ -30,6 +30,7 @@ class DerPostillon(BasicNewsRecipe):
                                       border-bottom: 1px dotted #BFBFBF;
                                       border-top: 1px dotted #BFBFBF;
                                       line-height: 1.25em}
+                               	p { margin: 0.4em 0px 0.5em;      }       
                                 .quelle{color: #666666; font-style: italic; white-space: nowrap}
                             """
 

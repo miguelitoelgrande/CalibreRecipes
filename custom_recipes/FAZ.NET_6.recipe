@@ -35,7 +35,9 @@ class FazNet(BasicNewsRecipe):
     ]
 
     remove_tags_after = [dict(name='div', attrs={'class':['ArtikelFooter']})]
-    remove_tags = [
+    
+    remove_tags = [    
+        dict(name='div', attrs={'id':'dertagbox'}),
         dict(name='div', attrs={'class':['ArtikelFooter','clear']}),
         dict(name='a', attrs={'title':['Vergrößern']}),  # AGe 2014-10-22
         dict(name='img', attrs={'class':['VideoCtrlIcon']}),  # AGe 2014-10-22

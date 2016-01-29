@@ -22,7 +22,7 @@ class ScrapBook2Calibre(BasicNewsRecipe):
     publisher             = 'ScrapBook'
     category              = 'knowledge'
     no_stylesheets        = False
-#    encoding              = 'utf-8'
+    encoding              = 'utf-8'
     use_embedded_content  = False
 #    language = 'en'
     lang                  = 'en'
@@ -34,8 +34,8 @@ class ScrapBook2Calibre(BasicNewsRecipe):
     ignore_duplicate_articles = {'title', 'url'}
     simultaneous_downloads = 6
     
-    INDEX    = u'file:///C:/Users/michael/AppData/Roaming/Mozilla/Firefox/Profiles/cmjoai5n.default/ScrapBook/tree/index.html'
-    BASE_URL = u'file:///C:/Users/michael/AppData/Roaming/Mozilla/Firefox/Profiles/cmjoai5n.default/ScrapBook/tree/'
+    INDEX    = u'file:///C:/Users/user/AppData/Roaming/Mozilla/Firefox/Profiles/wzr8sb8n.default/ScrapBook/tree/index.html'
+    BASE_URL = u'file:///C:/Users/user/AppData/Roaming/Mozilla/Firefox/Profiles/wzr8sb8n.default/ScrapBook/tree/'
 
 #    INDEX    = u'file:///C:/Users/user/AppData/Roaming/Mozilla/Firefox/Profiles/rnp74k3y.default/ScrapBook/tree/index.html'
 #    BASE_URL = u'file:///C:/Users/user/AppData/Roaming/Mozilla/Firefox/Profiles/rnp74k3y.default/ScrapBook/tree/'
