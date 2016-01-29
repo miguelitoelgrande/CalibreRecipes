@@ -21,7 +21,20 @@ class Tagi(BasicNewsRecipe):
 #    encoding              = 'utf-8'
     use_embedded_content  = False
     language              = 'de'
-
+    extra_css = '''
+p {
+hyphens: auto;
+-webkit-hyphens: auto;
+-moz-hyphens: auto;
+-webkit-hyphenate-before:3;
+hyphenate-before:3;
+-webkit-hyphenate-after:3;
+hyphenate-after:3;
+-webkit-hyphenate-lines:2;
+hyphenate-lines:2;
+}
+    '''
+ 
     conversion_options = {
                              'comments'  : description
                             ,'tags'      : category

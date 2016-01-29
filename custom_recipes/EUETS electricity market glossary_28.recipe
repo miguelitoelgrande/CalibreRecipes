@@ -20,8 +20,9 @@ class EUETSglossary(BasicNewsRecipe):
     simultaneous_downloads = 5
     timeout = 4
 
+    no_stylesheets     = True
     remove_empty_feeds = True
-    remove_javascript = True
+    remove_javascript  = True
 
     INDEX = 'http://www.emissions-euets.com/internal-electricity-market-glossary'
     BASE_URL = 'http://www.emissions-euets.com'
